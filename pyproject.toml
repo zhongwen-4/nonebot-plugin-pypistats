@@ -1,14 +1,13 @@
 [project]
 name = "nonebot-plugin-pypistats"
-version = "0.1.1"
+version = "0.1.2"
 description = "Default template for PDM package"
 authors = [
     {name = "zhongwen-4", email = "2401128923@qq.com"},
 ]
 dependencies = [
     "nonebot2>=2.4.0",
-    "nonebot-plugin-alconna>=0.53.1",
-    "pypistats>=1.7.0",
+    "nonebot-plugin-alconna>=0.53.1"
     "httpx>=0.27.2",
 ]
 requires-python = ">=3.10"
