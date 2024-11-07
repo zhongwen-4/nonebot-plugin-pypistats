@@ -29,7 +29,7 @@ async def _(name: Match[str], nb: Match[str]):
                 _name = f"nonebot_plugin_{name.result}"
             
             elif nb.result == "a":
-                _name = f"nonebot_adapters_{name.result}"
+                _name = f"nonebot_adapter_{name.result}"
 
             else:
                 _name = name.result
