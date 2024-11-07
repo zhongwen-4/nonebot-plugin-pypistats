@@ -1,6 +1,7 @@
 import httpx
 
 from nonebot import require
+from nonebot.plugin.load import inherit_supported_adapters
 require("nonebot_plugin_alconna")
 from nonebot_plugin_alconna import Alconna, Args, on_alconna, Match
 from nonebot.plugin import PluginMetadata
@@ -11,7 +12,8 @@ __plugin_meta__ = PluginMetadata(
     description= "查询结果由pypistats提供， 数据是否可信需自己判断",
     usage= "发送：下载统计 [包名] [类型]即可获取",
     type= "application",
-    homepage= "https://github.com/zhongwen-4/nonebot-plugin-pypistats"
+    homepage= "https://github.com/zhongwen-4/nonebot-plugin-pypistats",
+    supported_adapters= inherit_supported_adapters("nonebot_plugin_alconna")
 )
 
 
