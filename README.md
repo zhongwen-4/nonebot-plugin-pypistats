@@ -69,6 +69,7 @@ _✨ 通过机器人查看PyPi包的下载次数 ✨_
 
 <details>
 <summary>点击展开</summary>
+
 ![图一](./img/stats1.png)
 ![图二](./img/stats2.png)
 
