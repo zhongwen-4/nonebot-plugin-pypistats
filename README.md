@@ -64,3 +64,12 @@ _✨ 通过机器人查看PyPi包的下载次数 ✨_
 | 指令 | 权限 | 需要@ | 范围 | 说明 |
 |:-----:|:----:|:----:|:----:|:----:|
 | 下载统计 [包名] [类型] | all | 否 | all | 类型选项有p：nonebot-plugin-和a: nonebot-adapter-两种，如果不写参数的话那就是直接查询|
+
+### 指令例子
+
+<details>
+<summary>点击展开</summary>
+![图一](./img/stats1.png)
+![图二](./img/stats2.png)
+
+</details>
