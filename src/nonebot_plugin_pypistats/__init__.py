@@ -1,4 +1,4 @@
-import pypistats, httpx, json
+import httpx
 
 from nonebot import require
 require("nonebot_plugin_alconna")
@@ -37,11 +37,13 @@ async def _(name: Match[str], nb: Match[str]):
         else:
             _name = name.result
 
-        try:
-            stats = pypistats.recent(_name, format="json")
-            stats = json.loads(stats)
-        except httpx.HTTPError:
-            await get_stats.finish("获取失败，请检查包名是否正确")
+        async with httpx.AsyncClient() as client:
+            stats = await client.get(f"https://pypistats.org/api/packages/{_name}/recent")
+            if stats.status_code == 200:
+                stats = stats.json()
+            
+            else:
+                await get_stats.finish("获取失败，请检查包名是否正确")
 
         last_day = stats["data"]["last_day"]
         last_week = stats["data"]["last_week"]
