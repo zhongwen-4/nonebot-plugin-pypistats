@@ -1,7 +1,7 @@
 import httpx
 
 from nonebot import require
-from nonebot.plugin.load import inherit_supported_adapters
+from nonebot.plugin import inherit_supported_adapters
 require("nonebot_plugin_alconna")
 from nonebot_plugin_alconna import Alconna, Args, on_alconna, Match
 from nonebot.plugin import PluginMetadata
