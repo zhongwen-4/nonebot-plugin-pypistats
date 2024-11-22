@@ -1,6 +1,8 @@
 from nonebot import require
 from nonebot.plugin import inherit_supported_adapters
 require("nonebot_plugin_alconna")
+require("nonebot_plugin_saa")
+import nonebot_plugin_saa as saa
 from nonebot_plugin_alconna import Alconna, Args, on_alconna, Match
 from nonebot.plugin import PluginMetadata
 
@@ -47,7 +49,7 @@ async def _(name: Match[str], nb: Match[str]):
         last_week = stats["data"]["last_week"]
         last_month = stats["data"]["last_month"]
     except KeyError:
-        await get_stats.finish("查询失败，请检查包名是否正确")
+        await saa.Text("查询失败，请检查包名是否正确").finish(reply=True)
 
     msg = [
         f"{_name}的下载统计：",
@@ -56,4 +58,4 @@ async def _(name: Match[str], nb: Match[str]):
         f"近30日下载：{last_month}次"
     ]
 
-    await get_stats.finish("\n".join(msg))
+    await saa.Text("\n".join(msg)).finish(reply=True)
