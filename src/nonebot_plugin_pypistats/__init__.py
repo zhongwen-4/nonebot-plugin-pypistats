@@ -1,10 +1,10 @@
-import httpx
-
 from nonebot import require
 from nonebot.plugin import inherit_supported_adapters
 require("nonebot_plugin_alconna")
 from nonebot_plugin_alconna import Alconna, Args, on_alconna, Match
 from nonebot.plugin import PluginMetadata
+
+from .utils import got_statistics
 
 
 __plugin_meta__ = PluginMetadata(
@@ -25,39 +25,35 @@ get_stats = on_alconna(
 
 @get_stats.handle()
 async def _(name: Match[str], nb: Match[str]):
-    if name.available:
-        if nb.available:
-            if nb.result == "p":
-                _name = f"nonebot_plugin_{name.result}"
-            
-            elif nb.result == "a":
-                _name = f"nonebot_adapter_{name.result}"
-
-            else:
-                _name = name.result
+    if not name.available:
+        await get_stats.finish("没有包名怎么查")
+    if nb.available:
+        if nb.result == "p":
+            _name = f"nonebot_plugin_{name.result}"
+        
+        elif nb.result == "a":
+            _name = f"nonebot_adapter_{name.result}"
 
         else:
             _name = name.result
 
-        async with httpx.AsyncClient() as client:
-            stats = await client.get(f"https://pypistats.org/api/packages/{_name}/recent")
-            if stats.status_code == 200:
-                stats = stats.json()
-            
-            else:
-                await get_stats.finish("获取失败，请检查包名是否正确")
+    else:
+        _name = name.result
 
+    
+    stats = await got_statistics(_name)
+    try:
         last_day = stats["data"]["last_day"]
         last_week = stats["data"]["last_week"]
         last_month = stats["data"]["last_month"]
+    except KeyError:
+        await get_stats.finish("查询失败，请检查包名是否正确")
 
-        msg = [
-            f"{_name}的下载统计：",
-            f"昨日下载：{last_day}次",
-            f"近7日下载：{last_week}次",
-            f"近30日下载：{last_month}次"
-        ]
+    msg = [
+        f"{_name}的下载统计：",
+        f"昨日下载：{last_day}次",
+        f"近7日下载：{last_week}次",
+        f"近30日下载：{last_month}次"
+    ]
 
-        await get_stats.finish("\n".join(msg))
-    
-    await get_stats.finish("没有包名怎么查")
+    await get_stats.finish("\n".join(msg))
