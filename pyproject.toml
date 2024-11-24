@@ -8,10 +8,7 @@ authors = [
 dependencies = [
     "nonebot2>=2.4.0",
     "nonebot-plugin-alconna>=0.53.1",
-    "httpx>=0.27.2",
-    "nonebot-plugin-send-anything-anywhere>=0.7.1",
-    "pyecharts>=2.0.7",
-    "nonebot-plugin-htmlrender>=0.4.0",
+    "httpx>=0.27.2"
 ]
 requires-python = ">=3.10"
 readme = "README.md"
@@ -20,9 +17,3 @@ license = {text = "MIT"}
 
 [tool.pdm]
 distribution = false
-
-[tool.pdm.scripts]
-nb_run = 'cd ../ && cd ../ && cd ../ && nb run --reload'
-
-[tool.ruff.lint]
-ignore = ["E402"]
