@@ -16,6 +16,7 @@
         "Pipfile",
         "pybuilder",
         "pycache",
+        "pyecharts",
         "pyenv",
         "pyflow",
         "pypa",
