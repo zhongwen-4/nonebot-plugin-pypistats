@@ -12,12 +12,12 @@ from nonebot.matcher import Matcher
 
 from .utils import PyPiStats, val_name
 from .render import build_pystats_chart
-
+from .uasge import usage
 
 __plugin_meta__ = PluginMetadata(
     name="PyPi下载统计",
     description="查询结果由pypistats提供， 数据是否可信需自己判断",
-    usage="发送：下载统计 [包名] [类型]即可获取",
+    usage=usage,
     type="application",
     homepage="https://github.com/zhongwen-4/nonebot-plugin-pypistats",
     supported_adapters=inherit_supported_adapters(
@@ -42,11 +42,13 @@ get_stats = on_alconna(
 
 @get_stats.handle()
 async def _(matcher: Matcher, name: Match[str], nb: Match[str], t: Match[str]):
+    if not name.available:
+        await saa.Text(usage).finish(reply=True)
 
     _name = await val_name(matcher, name, nb)
-
+        
     d = {}
-    msg = saa.Text("pypi查询信息：\n")
+    msg = saa.Text("pypistats查询信息：\n")
 
     if t.result == "overall":
         stats = await pypistats.get_overall_stats(_name)
