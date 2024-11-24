@@ -2,13 +2,12 @@ from nonebot import require
 from nonebot.plugin import inherit_supported_adapters
 
 require("nonebot_plugin_alconna")
-require("nonebot_plugin_saa")
 require("nonebot_plugin_htmlrender")
 require("nonebot_plugin_localstore")
-import nonebot_plugin_saa as saa
 from nonebot_plugin_alconna import Alconna, Args, on_alconna, Match, Option
 from nonebot.plugin import PluginMetadata
 from nonebot.matcher import Matcher
+from nonebot_plugin_alconna.uniseg import UniMessage, Image, Text
 
 from .utils import PyPiStats, val_name
 from .render import build_pystats_chart
@@ -21,7 +20,7 @@ __plugin_meta__ = PluginMetadata(
     type="application",
     homepage="https://github.com/zhongwen-4/nonebot-plugin-pypistats",
     supported_adapters=inherit_supported_adapters(
-        "nonebot_plugin_alconna", "nonebot_plugin_saa"
+        "nonebot_plugin_alconna"
     ),
 )
 
@@ -43,19 +42,19 @@ get_stats = on_alconna(
 @get_stats.handle()
 async def _(matcher: Matcher, name: Match[str], nb: Match[str], t: Match[str]):
     if not name.available:
-        await saa.Text(usage).finish(reply=True)
+        await get_stats.finish(usage, reply_message= True)
 
     _name = await val_name(matcher, name, nb)
 
     d = {}
-    msg = saa.Text("pypistats查询信息：\n")
+    msg = UniMessage("pypistats查询信息：\n")
 
     if t.result == "overall":
         stats = await pypistats.get_overall_stats(_name)
         for i in stats["data"]:
             if i["category"] == "without_mirrors":
                 d[i["date"]] = i["downloads"]
-        msg += saa.Image(await build_pystats_chart(d))
+        msg += Image(raw= await build_pystats_chart(d))
 
     else:
         stats = await pypistats.get_recent_stats(_name)
@@ -64,9 +63,9 @@ async def _(matcher: Matcher, name: Match[str], nb: Match[str], t: Match[str]):
             last_week = stats["data"]["last_week"]
             last_month = stats["data"]["last_month"]
         except KeyError:
-            await saa.Text("查询失败，请检查包名是否正确").finish(reply=True)
+            await get_stats.finish("查询失败，请检查包名是否正确", reply_message= True)
 
-        msg += saa.Text(
+        msg += Text(
             "\n".join(
                 [
                     f"{_name}的下载统计：",
