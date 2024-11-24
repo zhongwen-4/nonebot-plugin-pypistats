@@ -36,7 +36,7 @@ get_stats = on_alconna(
     ),
     use_cmd_start=True,
     block=True,
-    priority=1
+    priority=1,
 )
 
 
@@ -46,7 +46,7 @@ async def _(matcher: Matcher, name: Match[str], nb: Match[str], t: Match[str]):
         await saa.Text(usage).finish(reply=True)
 
     _name = await val_name(matcher, name, nb)
-        
+
     d = {}
     msg = saa.Text("pypistats查询信息：\n")
 
