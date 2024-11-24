@@ -33,7 +33,10 @@ get_stats = on_alconna(
         Args["name?", str],
         Option("-n|--nb", Args["nb", str]),
         Option("-t|--type", Args["t", str]),
-    )
+    ),
+    use_cmd_start=True,
+    block=True,
+    priority=1
 )
 
 
